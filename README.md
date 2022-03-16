@@ -21,7 +21,9 @@ Throughout this project, I enhanced my understanding of API routes using the exp
 
 ## Installation
 
-This application is hosted on Heroku at the following URL ____________. To download the source code, clone the repository to your local machine. Once complete, open your integrated terminal from the root folder and use the ```npm i``` command to install all of the package dependencies required for the application.
+This application is hosted on Heroku at the following URL: https://powerful-tor-77231.herokuapp.com/. 
+
+To download the source code, clone the repository to your local machine. Once complete, open your integrated terminal from the root folder and use the ```npm i``` command to install all of the package dependencies required for the application.
 
 ## Usage
 
