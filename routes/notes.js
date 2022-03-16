@@ -1,8 +1,11 @@
+// Require express router method and universally unique ID package.
 const notes = require('express').Router();
 const { v4: uuidv4 } = require('uuid');
+
+// Import helper functions from fsHelper.js file
 const { 
-    readFilePromise, 
-    writeToFile, 
+    readFilePromise,
+    writeToFile,
     readAndAppend, 
 } = require('../helpers/fsHelper');
 
@@ -21,7 +24,7 @@ notes.post('/', (req, res) => {
     const newNote = {
       title,
       text,
-      note_id: uuidv4(),
+      id: uuidv4(),
     };
 
     readAndAppend(newNote, './db/db.json');
@@ -30,5 +33,22 @@ notes.post('/', (req, res) => {
     res.error('There was an error adding the note');
   }
 });
+
+// DELETE Route for a specific note
+notes.delete('/:id', (req, res) => {
+    const noteId = req.params.id;
+    readFilePromise('./db/db.json')
+      .then((data) => JSON.parse(data))
+      .then((json) => {
+        // Make a new array of all notes except the one with the ID provided in the URL
+        const result = json.filter((note) => note.id !== noteId);
+  
+        // Save that array to the filesystem
+        writeToFile('./db/db.json', result);
+  
+        // Respond to the DELETE request
+        res.json(`Item ${noteId} has been deleted`);
+      });
+  });
 
 module.exports = notes;
