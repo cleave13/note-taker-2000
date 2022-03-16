@@ -1,9 +1,14 @@
 const notes = require('express').Router();
 const { v4: uuidv4 } = require('uuid');
+const { 
+    readFilePromise, 
+    writeToFile, 
+    readAndAppend, 
+} = require('../helpers/fsHelper');
 
 // GET route for retrieving all the notes
 notes.get('/', (req, res) => {
-  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+  readFilePromise('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
 // POST route for a new note
@@ -19,11 +24,10 @@ notes.post('/', (req, res) => {
       note_id: uuidv4(),
     };
 
-    //TODO: write code to append the new object to the array in db.json
-    
+    readAndAppend(newNote, './db/db.json');
     res.json(`Note added successfully`);
   } else {
-    res.error('Error in adding tip');
+    res.error('There was an error adding the note');
   }
 });
 
